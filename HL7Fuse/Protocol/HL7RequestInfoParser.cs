@@ -53,8 +53,11 @@ namespace HL7Fuse.Protocol
             {
                 // Ignore any error, since the config is probably missing
             }
+            var langToken = "ADM.LANG^^Patient's primary language:~ADM.LANG2^^Preferred Spoken Language:~ADM.LANGW^^Preferred Written Language:~ADM.LANGO2^^If Other, Please Specify:";
+            var ethnicToken = "ADM.ETHNIC^^Ethnicity:~ADM.ETHNI2^^If Yes to HISPANIC or LATINO ORGIN, Please complete:~ADM.HISP^^Hispanic Origin:";
 
-            IMessage hl7Message = parser.Parse(message);
+            var withoutTokens = message.Replace(langToken, "").Replace(ethnicToken, "");
+            IMessage hl7Message = parser.Parse(withoutTokens);
 
             result = new HL7RequestInfo();
             if (HandleEachMessageAsEvent)
